@@ -9,11 +9,12 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <vector>
 
 int main() {
 	int channelNum;
 	int pi = 3.14;
+	double amplitudeInput;
+	int limiter;
 
 	//My classes
 	class ByteConvert convert;
@@ -23,7 +24,7 @@ int main() {
 	class Sine SineConfig;
 
 	//for the frequency input
-	std::vector <double> frequency = { SineConfig.frequencyInput };
+	double frequency = SineConfig.frequencyInput;
 
 	//creates the .wav file
 	std::ofstream wav;
@@ -60,6 +61,24 @@ int main() {
 	std::cout << "\nPlease choose frequency (in Hz: 256 or above is recommended): ";
 	std::cin >> SineConfig.frequencyInput;
 
+	std::cout << "\nPlease choose limiter value (3, 4, or 8): ";
+	std::cin >> limiter;
+
+	while (limiter != 3 && limiter != 4 && limiter != 8) {
+		limiter = 0;
+		std::cout << "\nPlease choose limiter value (3, 4, or 8): ";
+		std::cin >> limiter;
+	}
+
+	std::cout << "\nPlease type sound duration (in seconds between 2 and 10): ";
+	std::cin >> SineConfig.duration;
+
+	while (SineConfig.duration < 2 || SineConfig.duration > 10) {
+		SineConfig.duration = 0;
+		std::cout << "\nPlease type sound duration (in seconds between 1 and 10): ";
+		std::cin >> SineConfig.duration;
+	}
+
 	if (wav.is_open()) {
 		//writing configuration for the .wav file
 		wav << RIFFformat.chunkID;
@@ -80,23 +99,22 @@ int main() {
 
 		int startAudio = wav.tellp();
 
-		std::cout << "\nPlease type sound duration (in seconds): ";
-		std::cin >> SineConfig.duration;
-
 		for (int i = 0; i < SoundFormat.sampleRATE * SineConfig.duration; i++) {
-			double amplitude = ((double)i / SoundFormat.sampleRATE) * SineConfig.maxAMPLITUDE;//limits the amplitude to always be below the max
+
+			//int(3276*sin(i)
+			double amplitude = ((double)i / SoundFormat.sampleRATE) * SineConfig.maxAMPLITUDE;
 			double value = sin((2 * pi * i * SineConfig.frequencyInput) / SoundFormat.sampleRATE);//formula of amplitude divided by the sample rate
 
 			if (int channelNum = 1) {
-				double Channel1 = amplitude * value / 4;
+				double Channel1 = (amplitude * value) / limiter;
 
 				convert.convertToBytes(wav, Channel1, 2);
 			}
 
 
 			else if (int channelNum = 2) {
-				double Channel1 = amplitude * value / 4;
-				double Channel2 = amplitude * value / 4;
+				double Channel1 = (amplitude * value) / limiter;
+				double Channel2 = (amplitude * value) / limiter;
 
 				convert.convertToBytes(wav, Channel1, 2);
 				convert.convertToBytes(wav, Channel2, 2);
@@ -115,7 +133,7 @@ int main() {
 
 	wav.close();
 
-	std::cout << std::endl;
+	std::cout << "\nYour File Has Been Created As Raw Data\n" << std::endl;
 
 	system("pause");
 	return 0;
