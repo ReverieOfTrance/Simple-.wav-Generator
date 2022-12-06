@@ -36,8 +36,8 @@ public:
 class Sine {
 public:
 	//setup for the sine sound
-	const int maxAMPLITUDE = (pow(16, 2) / 2) - 1;//the number of bits to the second power divided by 2 (to factor both negative and positive values) while subtracting 1 to factor in zero
-	float duration;//how long the sound will be (user will input the duration in seconds)
+	const double maxAMPLITUDE = (pow(16, 2) / 2) - 1;//the number of bits to the second power divided by 2 (to factor both negative and positive values) while subtracting 1 to factor in zero
+	double duration;//how long the sound will be (user will input the duration in seconds)
 	double frequencyInput;
 
 };

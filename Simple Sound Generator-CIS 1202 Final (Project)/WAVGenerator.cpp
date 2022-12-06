@@ -12,9 +12,8 @@
 
 int main() {
 	int channelNum;
-	int pi = 3.14;
-	double amplitudeInput;
-	int limiter;
+	int pi = 3.14159265;
+	int limiter;//limits the sound volume
 
 	//My classes
 	class ByteConvert convert;
@@ -28,7 +27,7 @@ int main() {
 
 	//creates the .wav file
 	std::ofstream wav;
-	wav.open("sine.wav", std::ios::binary);//allows the file to be in binary mode
+	wav.open("sound.wav", std::ios::binary);//allows the file to be in binary mode
 
 	std::cout << "\nPlease type the number of audio channels (1 or 2): ";
 	std::cin >> channelNum;
@@ -58,26 +57,28 @@ int main() {
 		std::cin >> SoundFormat.sampleRATE;
 	}
 
-	std::cout << "\nPlease choose frequency (in Hz: 256 or above is recommended): ";
+	std::cout << "\nPlease choose frequency (in Hz: 256 or below is recommended): ";
 	std::cin >> SineConfig.frequencyInput;
 
-	std::cout << "\nPlease choose limiter value (3, 4, or 8): ";
+	std::cout << "\nPlease choose limiter value (6, 8, or 10): ";
 	std::cin >> limiter;
 
-	while (limiter != 3 && limiter != 4 && limiter != 8) {
+	while (limiter != 6 && limiter != 8 && limiter != 10) {
 		limiter = 0;
-		std::cout << "\nPlease choose limiter value (3, 4, or 8): ";
+		std::cout << "\nPlease choose limiter value (6, 8, or 10): ";
 		std::cin >> limiter;
 	}
 
-	std::cout << "\nPlease type sound duration (in seconds between 2 and 10): ";
+	std::cout << "\nPlease type sound duration 5-10 (this is between .5 and 1 second): ";//this is to protect hearing
 	std::cin >> SineConfig.duration;
 
-	while (SineConfig.duration < 2 || SineConfig.duration > 10) {
+	while (SineConfig.duration < 5 || SineConfig.duration > 10) {
 		SineConfig.duration = 0;
-		std::cout << "\nPlease type sound duration (in seconds between 1 and 10): ";
+		std::cout << "\nPlease type sound duration 5-10 (this is between .5 and 1 second): ";
 		std::cin >> SineConfig.duration;
 	}
+
+	SineConfig.duration = SineConfig.duration / 10;//converts to a fraction of a second
 
 	if (wav.is_open()) {
 		//writing configuration for the .wav file
@@ -99,22 +100,22 @@ int main() {
 
 		int startAudio = wav.tellp();
 
-		for (int i = 0; i < SoundFormat.sampleRATE * SineConfig.duration; i++) {
+		for (int i = 0; i < SoundFormat.sampleRATE * SineConfig.duration; i++) {//
 
-			//int(3276*sin(i)
+			
 			double amplitude = ((double)i / SoundFormat.sampleRATE) * SineConfig.maxAMPLITUDE;
-			double value = sin((2 * pi * i * SineConfig.frequencyInput) / SoundFormat.sampleRATE);//formula of amplitude divided by the sample rate
+			double value = sin((2 * pi * i * SineConfig.frequencyInput) / SoundFormat.sampleRATE);
 
 			if (int channelNum = 1) {
-				double Channel1 = (amplitude * value) / limiter;
+				double Channel1 = (amplitude * value) / (limiter);//also to protect hearing
 
 				convert.convertToBytes(wav, Channel1, 2);
 			}
 
 
 			else if (int channelNum = 2) {
-				double Channel1 = (amplitude * value) / limiter;
-				double Channel2 = (amplitude * value) / limiter;
+				double Channel1 = (amplitude * value) / (limiter);
+				double Channel2 = (amplitude * value) / (limiter);
 
 				convert.convertToBytes(wav, Channel1, 2);
 				convert.convertToBytes(wav, Channel2, 2);
@@ -124,7 +125,7 @@ int main() {
 
 		int endAudio = wav.tellp();
 
-		wav.seekp(startAudio - 4);//start position minus 4 bytes
+		wav.seekp(startAudio - 4);
 		convert.convertToBytes(wav, endAudio - startAudio, 4);
 
 		wav.seekp(4, std::ios::beg);//4 places after the beginning of the file to account for the actual data chunk of the file
