@@ -1,4 +1,4 @@
-//4 December 2022
+//14 February 2023
 //This program uses PCM (Pulse Code Modulation) to create a short .wav file with a pure sine wave
 //This program creates a simple sine wave and writes it to a .wav file. This .wav is classified as raw data so keep that in mind when it won't play through a media player. Software like Audacity are capable of reading raw data.
 
@@ -48,10 +48,10 @@ int main() {
 		return 0;
 	}
 
-	std::cout << "\n\nChoose Sample Rate (41000 or 48200): ";
+	std::cout << "\n\nChoose Sample Rate (44100 or 48000): ";//sample rate
 	std::cin >> SoundFormat.sampleRATE;
 
-	while (SoundFormat.sampleRATE != 41000 && SoundFormat.sampleRATE != 48200) {//while the sample rate is not one of these, it will ask for the sample rate
+	while (SoundFormat.sampleRATE != 44100 && SoundFormat.sampleRATE != 48000) {//while the sample rate is not one of these, it will ask for the sample rate
 		SoundFormat.sampleRATE = 0;
 		std::cout << "\n\nChoose Sample Rate (41000 or 48200): ";
 		std::cin >> SoundFormat.sampleRATE;
@@ -60,21 +60,21 @@ int main() {
 	std::cout << "\nPlease choose frequency (in Hz: 256 or below is recommended): ";
 	std::cin >> SineConfig.frequencyInput;
 
-	std::cout << "\nPlease choose limiter value (6, 8, or 10): ";
+	std::cout << "\nPlease choose limiter value (4, 8, or 10): ";
 	std::cin >> limiter;
 
-	while (limiter != 6 && limiter != 8 && limiter != 10) {
+	while (limiter != 4 && limiter != 8 && limiter != 10) {
 		limiter = 0;
-		std::cout << "\nPlease choose limiter value (6, 8, or 10): ";
+		std::cout << "\nPlease choose limiter value (4, 8, or 10): ";
 		std::cin >> limiter;
 	}
 
-	std::cout << "\nPlease type sound duration 5-10 (this is between .5 and 1 second): ";//this is to protect hearing
+	std::cout << "\nPlease type sound duration 5-10: ";//this is to protect hearing
 	std::cin >> SineConfig.duration;
 
 	while (SineConfig.duration < 5 || SineConfig.duration > 10) {
 		SineConfig.duration = 0;
-		std::cout << "\nPlease type sound duration 5-10 (this is between .5 and 1 second): ";
+		std::cout << "\nPlease type sound duration 5-10: ";
 		std::cin >> SineConfig.duration;
 	}
 

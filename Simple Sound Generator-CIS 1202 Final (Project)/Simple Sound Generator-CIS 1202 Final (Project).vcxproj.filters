@@ -20,9 +20,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RIFF.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ByteConvert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
