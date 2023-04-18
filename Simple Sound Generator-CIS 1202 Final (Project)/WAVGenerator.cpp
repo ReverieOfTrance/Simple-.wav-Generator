@@ -60,21 +60,21 @@ int main() {
 	std::cout << "\nPlease choose frequency (in Hz: 256 or below is recommended): ";
 	std::cin >> SineConfig.frequencyInput;
 
-	std::cout << "\nPlease choose limiter value (4, 8, or 10): ";
+	std::cout << "\nPlease choose limiter value (1 - 10): ";
 	std::cin >> limiter;
 
-	while (limiter != 4 && limiter != 8 && limiter != 10) {
+	while (limiter < 1 || limiter > 10) {
 		limiter = 0;
-		std::cout << "\nPlease choose limiter value (4, 8, or 10): ";
+		std::cout << "\nPlease choose limiter value (1 - 10): ";
 		std::cin >> limiter;
 	}
 
-	std::cout << "\nPlease type sound duration 5-10: ";//this is to protect hearing
+	std::cout << "\nPlease type sound duration in deciseconds (1-10): ";
 	std::cin >> SineConfig.duration;
 
-	while (SineConfig.duration < 5 || SineConfig.duration > 10) {
+	while (SineConfig.duration < 1 || SineConfig.duration > 10) {
 		SineConfig.duration = 0;
-		std::cout << "\nPlease type sound duration 5-10: ";
+		std::cout << "\nPlease type sound duration in deciseconds (1-10): ";
 		std::cin >> SineConfig.duration;
 	}
 
