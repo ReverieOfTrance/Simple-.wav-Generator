@@ -1,4 +1,4 @@
-//14 February 2023
+//09 March 2024
 //This program uses PCM (Pulse Code Modulation) to create a short .wav file with a pure sine wave
 //This program creates a simple sine wave and writes it to a .wav file. This .wav is classified as raw data so keep that in mind when it won't play through a media player. Software like Audacity are capable of reading raw data.
 
@@ -134,8 +134,8 @@ int main() {
 
 	wav.close();
 
-	std::cout << "\nYour File Has Been Created As Raw Data\n" << std::endl;
+	std::cout << "\nYour File Has Been Created As Raw Data\n The file will be in 16bit PCM format" << std::endl;//the final audio is encoded in 16 bit PCM (Pulse-Code Modulation) format
 
-	system("pause");
+	system("pause");//This function is not fundamental to the program and can be removed if so desired
 	return 0;
 }
